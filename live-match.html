@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>البث المباشر</title>
+  <link rel="stylesheet" href="live-match-style.css">
+</head>
+<body>
+  <div class="container">
+
+    <!-- قسم البث -->
+    <section class="video-section">
+      <div class="live-label">مباشر</div>
+      <video controls class="live-video">
+        <source src="videos/your-video.mp4" type="video/mp4">
+        المتصفح لا يدعم تشغيل الفيديو
+      </video>
+
+      <div class="controls">
+        <button class="icon-btn">⏯</button> <!-- تشغيل/إيقاف -->
+        <button class="icon-btn">🔇</button> <!-- كتم -->
+
+        <!-- قسم ازرار التحكم -->
+        <div class="dropdown">
+          <button class="icon-btn" onclick="toggleMenu()">⚙</button> <!-- جودة -->
+          <div id="dropdownMenu" class="dropdown-menu">
+            <div class="menu-item" onclick="toggleSub('typeOptions')" id="typeTitle">1/ نوع التعليق</div>
+            <ul id="typeOptions" class="sub-options">
+              <div class="option-button" onclick="selecs0ption(this, 'type')">تحليلي</div>
+              <div class="option-button" onclick="selecs0ption(this, 'type')">حماسي</div>
+            </ul>
+
+            <div class="menu-item" onclick="toggleSub('qualityOptions')" id="qualityTitle">2/ الجودة</div>
+            <ul id="qualityOptions" class="sub-options">
+              <div class="option-button" onclick="selecs0ption(this, 'quality')">4K</div>
+              <div class="option-button" onclick="selecs0ption(this, 'quality')">1080p</div>
+              <div class="option-button" onclick="selecs0ption(this, 'quality')">720p</div>
+              <div class="option-button" onclick="selecs0ption(this, 'quality')">480p</div>
+            </ul>
+          </div>
+        </div>
+
+        <button class="icon-btn">⛶</button> <!-- تكبير -->
+        <button class="highlight-btn">احفظ لقطة مميزة</button>
+      </div>
+    </section>
+
+    <!-- أخطبوط روشن -->
+    <div class="overlay-box">
+      <img src="images/akhtabot.png" alt="أخطبوط روشن" class="octopus-img">
+      <p class="greeting">هلا والله! معاك <strong>أخطبوط روشن</strong>، اكتب لي استفسارك وانا اقولك</p>
+
+      <textarea id="userInput" placeholder="مثلاً: الفريق عنده إصابات ومستواه متوسط..."></textarea>
+      <button onclick="analyzeInput()">جاوبني</button>
+      <p id="predictionResult" class="result"></p>
+    </div>
+
+    <!-- تسجيل صوتي وتعليق نصي -->
+    <div class="audio-comment-box">
+      <div id="recordIcon" class="record-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" fill="#fff" viewBox="0 0 24 24">
+          <path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 14 0h-2Zm-5 9a7.002 7.002 0 0 0 6.93-6H18a6 6 0 1 1-12 0H5.07A7.002 7.002 0 0 0 12 20Z"/>
+        </svg>
+      </div>
+      <p>سجل تعليقك الصوتي </p>
+      <button class="text-comment-btn">اكتب تعليقك النصي :</button>
+
+      <!-- مربع كتابة التعليق -->
+      <div id="text-comment-box" style="display: none; margin-top: 10px;">
+        <textarea id="text-comment-input" rows="3" placeholder="اكتب تعليقك هنا..." style="width: 100%;"></textarea>
+        <button onclick="submitTextComment()">إرسال</button>
+      </div>
+
+      <p class="comment-type">نوع التعليق : حماسي , تكتيكي , التنبؤ بالأهداف</p>
+    </div>
+
+    <!-- صوت التنبيه -->
+    <audio id="beep-sound" src="videos/beep.mp3" preload="auto"></audio>
+
+    <!-- اللقطات الجانبية -->
+    <aside class="sidebar">
+      <div class="highlights">
+        <h3>لقطات المعلقين</h3>
+        <div class="highlight-item">
+          <div class="commentator-card">
+            <img src="images/Ai.png" alt="صورة المعلق" class="commentator-img">
+            <div class="commentator-info">
+              <h4 class="commentator-name">أحمد القرشي</h4>
+              <p class="commentator-role">تحليلي</p>
+            </div>
+            <div class="play-audio">
+              <span class="label">المعلق</span>
+              <button class="play-button"><i class="play-icon"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- الإحصائيات -->
+    <aside>
+      <div class="stats">
+        <h3>إحصائيات المباراة</h3>
+        <div class="stats-cards">
+          <div class="stat-card">
+            <h4>النتيجة</h4>
+            <p>الهلال <strong id="score1">0</strong> - <strong id="score2">0</strong> النصر</p>
+          </div>
+
+          <div class="stat-card">
+            <h4>الاستحواذ</h4>
+            <p>الهلال <strong>60%</strong> - <strong>40%</strong> النصر</p>
+          </div>
+
+          <div class="stat-card">
+            <h4>أفضل لاعب</h4>
+            <p>سالم الدوسري</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- نموذج إضافة لقطة -->
+    <div class="add-highlight-form">
+      <h4>أضف لقطة جديدة</h4>
+      <input type="text" placeholder="اسم المعلق" id="commentator-name">
+      <select id="commentator-role">
+        <option value="">نوع التعليق</option>
+        <option value="تحليلي">تحليلي</option>
+        <option value="حماسي">حماسي</option>
+      </select>
+      <input type="file" id="commentator-image" accept="image/*">
+      <input type="file" id="commentator-audio" accept="audio/*">
+      <button onclick="addHighlight()">إضافة</button>
+    </div>
+
+    <!-- تعليقات المشاهدين -->
+    <section class="chat-section">
+      <h3>تعليقات المشاهدين</h3>
+      <div class="chat-box" id="chat-box"></div>
+      <input type="text" id="chat-input" placeholder="اكتب تعليقك هنا...">
+      <button onclick="sendComment()">إرسال</button>
+    </section>
+
+  </div>
+
+  <!-- ربط ملف الجافا سكريبت الخارجي -->
+  <script src="live-match.js"></script>
+</body>
+</html>

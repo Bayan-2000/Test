@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>الملف الشخصي</title>
+  <link rel="stylesheet" href="profile2.css" />
+</head>
+<body>
+
+  <!-- ✅ صفحة الملف الشخصي -->
+  <div class="profile-container">
+    
+    <!-- بطاقة عرض معلومات المستخدم -->
+    <div class="profile-card" id="card">
+      <img src="images/p.png" alt="صورة المستخدم" class="avatar" />
+      <h2 id="name">أحمد العتيبي</h2>
+      <p class="email" id="email">ahmed@example.com</p>
+      <div class="info" id="info">
+        <p><strong>المدينة:</strong> <span id="city">الرياض</span></p>
+        <p><strong>الجنس:</strong> <span id="gender">ذكر</span></p>
+        <p><strong>العمر:</strong> <span id="age">28 سنة</span></p>
+      </div>
+      <div class="buttons">
+        <button class="edit" onclick="openEditForm()">تعديل الملف</button>
+        <button class="logout" onclick="confirmLogout()">تسجيل الخروج</button>
+      </div>
+    </div>
+
+    <!-- نموذج التعديل -->
+    <div class="edit-form" id="editForm" style="display: none;">
+      <h3>تعديل المعلومات</h3>
+      <input type="text" id="editName" placeholder="الاسم" />
+      <input type="email" id="editEmail" placeholder="البريد الإلكتروني" />
+      <input type="text" id="editCity" placeholder="المدينة" />
+      <input type="text" id="editGender" placeholder="الجنس" />
+      <input type="number" id="editAge" placeholder="العمر" />
+      <button onclick="saveEdits()">حفظ</button>
+      
+    </div>
+  </div>
+
+  <script src="profile.js"></script>
+
+<!-- ✅ قسم اللقطات المميزة -->
+<section class="highlights">
+  <h1>اللقطات المميزة</h1>
+    <div class="shots-container" id="shotsContainer">
+  
+      <div class="shot-card">
+        <video src="videos/clip1.mp4" controls></video>
+        <p>هدف مذهل في الدقيقة 90!</p>
+        <div class="shot-actions">
+          <button class="like-button" onclick="likeShot(this)">
+            <span class="heart">&#10084;</span>
+          </button>
+          <span class="likes">399</span> إعجابات
+        </div>
+      </div>
+  
+      <div class="shot-card">
+        <video src="videos/clip2.mp4" controls></video>
+        <p>تعليق حماسي في الشوط الثاني</p>
+        <div class="shot-actions">
+          <button class="like-button" onclick="likeShot(this)">
+            <span class="heart">&#10084;</span>
+          </button>
+          <span class="likes">200</span> إعجابات
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <script src="profile.js"></script>
+</body>
+</html>
